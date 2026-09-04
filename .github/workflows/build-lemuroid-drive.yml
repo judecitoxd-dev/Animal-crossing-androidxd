@@ -18,7 +18,6 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
 
       - name: Checkout Lemuroid 1.17.0
         run: git clone --depth 1 --branch 1.17.0 --recurse-submodules --shallow-submodules https://github.com/Swordfish90/Lemuroid.git Lemuroid
