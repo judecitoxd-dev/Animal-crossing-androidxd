@@ -23,7 +23,9 @@ jobs:
         run: git clone --depth 1 --branch 1.17.0 --recurse-submodules --shallow-submodules https://github.com/Swordfish90/Lemuroid.git Lemuroid
 
       - name: Apply Drive v1.1 mod
-        run: python3 build_mod_v2.py Lemuroid
+        run: |
+          python3 build_mod_v2.py Lemuroid
+          python3 fix_v2.py Lemuroid
 
       - name: Build installable debug APK
         working-directory: Lemuroid
