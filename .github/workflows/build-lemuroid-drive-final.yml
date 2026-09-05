@@ -38,6 +38,7 @@ jobs:
           python3 drive_autoresume_v123.py Lemuroid
           python3 cover_multi_console_v124.py Lemuroid
           python3 drive_storage_integrity_v125.py Lemuroid
+          python3 fix_v125_worker.py Lemuroid
 
       - name: Build installable debug APK
         working-directory: Lemuroid
