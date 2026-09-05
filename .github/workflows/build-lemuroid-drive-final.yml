@@ -1,4 +1,4 @@
-name: Build Lemuroid Drive v1.2.5 APK
+name: Build Lemuroid Drive v1.2.6 Bundled APK
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout build scripts
         uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout Lemuroid 1.17.0
         run: git clone --depth 1 --branch 1.17.0 --recurse-submodules --shallow-submodules https://github.com/Swordfish90/Lemuroid.git Lemuroid
 
-      - name: Apply Drive v1.2.5 mod
+      - name: Apply Drive v1.2.6 mod
         run: |
           python3 build_mod_v2.py Lemuroid
           python3 fix_v2.py Lemuroid
@@ -39,24 +39,25 @@ jobs:
           python3 cover_multi_console_v124.py Lemuroid
           python3 drive_storage_integrity_v125.py Lemuroid
           python3 fix_v125_worker.py Lemuroid
+          python3 force_saf_local_bundle_v126.py Lemuroid
 
-      - name: Build installable debug APK
+      - name: Build APK with all cores bundled
         working-directory: Lemuroid
         run: |
           chmod +x gradlew
-          ./gradlew assembleFreeDynamicDebug --stacktrace
+          ./gradlew assembleFreeBundleDebug --stacktrace
 
       - name: Collect APK
         run: |
           APK=$(find Lemuroid/lemuroid-app/build/outputs/apk -type f -name '*.apk' | head -n 1)
           test -n "$APK"
-          cp "$APK" Lemuroid-Drive-v1.2.5.apk
-          sha256sum Lemuroid-Drive-v1.2.5.apk
-          ls -lh Lemuroid-Drive-v1.2.5.apk
+          cp "$APK" Lemuroid-Drive-v1.2.6-Bundled.apk
+          sha256sum Lemuroid-Drive-v1.2.6-Bundled.apk
+          ls -lh Lemuroid-Drive-v1.2.6-Bundled.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Lemuroid-Drive-v1.2.5-APK
-          path: Lemuroid-Drive-v1.2.5.apk
+          name: Lemuroid-Drive-v1.2.6-Bundled-APK
+          path: Lemuroid-Drive-v1.2.6-Bundled.apk
           if-no-files-found: error
