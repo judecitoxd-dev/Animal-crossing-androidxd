@@ -1,4 +1,4 @@
-name: Build Lemuroid Drive v1.2 APK
+name: Build Lemuroid Drive v1.2.1 APK
 
 on:
   push:
@@ -27,12 +27,13 @@ jobs:
       - name: Checkout Lemuroid 1.17.0
         run: git clone --depth 1 --branch 1.17.0 --recurse-submodules --shallow-submodules https://github.com/Swordfish90/Lemuroid.git Lemuroid
 
-      - name: Apply Drive v1.2 mod
+      - name: Apply Drive v1.2.1 mod
         run: |
           python3 build_mod_v2.py Lemuroid
           python3 fix_v2.py Lemuroid
           python3 final_fix.py Lemuroid
           python3 zip_fast_scan_v12.py Lemuroid
+          python3 drive_scan_resilience_v121.py Lemuroid
 
       - name: Build installable debug APK
         working-directory: Lemuroid
@@ -44,13 +45,13 @@ jobs:
         run: |
           APK=$(find Lemuroid/lemuroid-app/build/outputs/apk -type f -name '*.apk' | head -n 1)
           test -n "$APK"
-          cp "$APK" Lemuroid-Drive-v1.2.apk
-          sha256sum Lemuroid-Drive-v1.2.apk
-          ls -lh Lemuroid-Drive-v1.2.apk
+          cp "$APK" Lemuroid-Drive-v1.2.1.apk
+          sha256sum Lemuroid-Drive-v1.2.1.apk
+          ls -lh Lemuroid-Drive-v1.2.1.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Lemuroid-Drive-v1.2-APK
-          path: Lemuroid-Drive-v1.2.apk
+          name: Lemuroid-Drive-v1.2.1-APK
+          path: Lemuroid-Drive-v1.2.1.apk
           if-no-files-found: error
